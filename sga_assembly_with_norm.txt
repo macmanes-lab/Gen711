@@ -26,6 +26,7 @@ samp1 := p_eremicus
 samp2 := mus_musculus
 
 #MAKE DIRECTORIES
+#directories not changed
 
 #################################SGA####################################
 
