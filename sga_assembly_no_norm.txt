@@ -1,8 +1,6 @@
 #!/usr/bin/make -rRsf
 
 
-#HI LAUREN!!!!!!
-
 ###        -usage 'sga_assembly_no_norm.mk RUN=run CPU=8 MEM=15 READ1=/home/lauren/transcriptome/Pero360T.1.fastq.gz READ2=/home/lauren/transcriptome/Pero360T.2.fastq.gz READ3=/location/of/read3.fastq READ4=/location/of/read4.fastq'
 ###        -RUN= name of run
 
