@@ -21,6 +21,7 @@ REPORT=sga-preqc-report.py
 #$(CURDIR)/$(samp1)/raw.$(samp1).Pero360T.1.fastq.gz 
 #$(CURDIR)/$(samp1)/raw.$(samp1).Pero360T.2.fastq.gz 
 
+#change the data
 #This re-names my samples:
 samp1 := p_eremicus
 samp2 := mus_musculus
