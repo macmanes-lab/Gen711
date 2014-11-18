@@ -1,16 +1,13 @@
 #!/usr/bin/make -rRsf
-###hi matt
 
-###        -usage 'sga_assembly_no_norm.mk RUN=run CPU=8 MEM=15 READ1=/home/lauren/transcriptome/Pero360T.1.fastq.gz READ2=/home/lauren/transcriptome/Pero360T.2.fastq.gz READ3=/location/of/read3.fastq READ4=/location/of/read4.fastq'
+###        -usage 'sga_assembly_no_norm.mk RUN=run CPU=8 MEM=15 READ1=/home/lauren/Documents/testes.R1.fastq.gz READ2=/home/lauren/Documents/testes.R2.fastq.gz'
 ###        -RUN= name of run
 
 MEM=5
 CPU=5
 RUN=run
-READ1=/home/lauren/transcriptome/Pero360T.1.fastq.gz
-READ2=/home/lauren/transcriptome/Pero360T.2.fastq.gz
-READ3=mus_musculusREADNAME1.fastq.gz 
-READ4=mus_musculusREADNAME1.fastq.gz  
+READ1=/home/lauren/Documents/testes.R1.fastq.gz
+READ2=/home/lauren/Documents/testes.R2.fastq.gz
 
 SHELL=/bin/bash -o pipefail
 # SGA version
@@ -19,13 +16,13 @@ DWGSIM=dwgsim
 REPORT=sga-preqc-report.py
 
 #Just so you know, these are my raw reads input files:
-#$(CURDIR)/$(samp1)/raw.$(samp1).Pero360T.1.fastq.gz 
-#$(CURDIR)/$(samp1)/raw.$(samp1).Pero360T.2.fastq.gz 
+#$(CURDIR)/$(samp1)/raw.$(samp1).testes.R1.fastq.gz
+#$(CURDIR)/$(samp1)/raw.$(samp1).testes.R2.fastq.gz
 
 #change the data
 #This re-names my samples:
 samp1 := p_eremicus
-samp2 := mus_musculus
+
 
 #################################SGA####################################
 
@@ -33,53 +30,37 @@ samp2 := mus_musculus
 #Must be added in order of completion!!!
 all:
 $(CURDIR)/p_eremicus/p_eremicus_preprocessed.fastq.gz
-$(CURDIR)/p_eremicus/mus_musculus_preprocessed.fastq.gz
 $(CURDIR)/p_eremicus/p_eremicus_sga.fastq.gz
-$(CURDIR)/mus_musculus/mus_musculus_sga.fastq.gz
 $(CURDIR)/p_eremicus/p_eremicus_sga_no_norm_trinity.fasta
-$(CURDIR)/mus_musculus/mus_musculus_sga_no_norm_trinity.fasta
-
 
 # Pre-process the dataset: recall that NEED gz file form for this step
-p_eremicus_preprocessed.fastq.gz: $(CURDIR)/$(samp1)/raw.$(samp1).READNAME_1.fastq.gz 					$(CURDIR)/$(samp1)/raw.$(samp1).READNAME_2.fastq.gz
-		$(SGA) preprocess --pe-mode 1 $(CURDIR)/$(samp1)/raw.$(samp1).READNAME_1.fastq.gz $(CURDIR)/$(samp1)/raw.$(samp1).READNAME_2.fastq.gz > $@
-
-mus_musculus_preprocessed.fastq.gz: $(CURDIR)/$(samp2)/raw.$(samp2).READNAME_1.fastq.gz 					$(CURDIR)/$(samp2)/raw.$(samp2).READNAME_2.fastq.gz
-		$(SGA) preprocess --pe-mode 1 $(CURDIR)/$(samp2)/raw.$(samp2).READNAME_1.fastq.gz $(CURDIR)/$(samp2)/raw.$(samp2).READNAME_2.fastq.gz > $@		
+p_eremicus_preprocessed.fastq.gz: $(CURDIR)/$(samp1)/raw.$(samp1).testes.R1.fastq.gz $(CURDIR)/$(samp1)/raw.$(samp1).testes.R2.fastq.gz
+		$(SGA) preprocess --pe-mode 1 $(CURDIR)/$(samp1)/raw.$(samp1).testes.R1.fastq.gz $(CURDIR)/$(samp1)/raw.$(samp1).testes.R2.fastq.gz > $@	
 		
             
-# Build the FM-index for each set
+# Build the FM-index 
 %.bwt: %.fastq.gz
 		$(SGA) index -a ropebwt -t 8 --no-reverse $<
 
 		
-# Make the preqc file for the short read sets
+# Make the preqc file for the short read set
 %.preqc: %.bwt %.fastq.gz
 		$(SGA) preqc -t 8 $(patsubst %.bwt, %.fastq.gz, $<) > $@
 
 		
-# Final PDF reports
-main_report.pdf: samp1.preqc samp2.preqc 
+# Final PDF report
+main_report.pdf: samp1.preqc  
 		python $(REPORT) $+
 		mv preqc_report.pdf $@
 
-
-# SGA correction		
-#Can input files be in gz format? As was produced in pre-processed file. Also I assume correct inputs?		
-
-#samp1 := p_eremicus#
+# SGA correction				
 $(CURDIR)/$(samp1)/(samp1).sga.fastq:\ 
 $(CURDIR)/$(samp1)/p_eremicus_preprocessed.fastq.gz   
 	sga correct -k 41 --discard --learn -t 8 -o (samp1).sga.fastq p_eremicus_preprocessed.fastq.gz
 
-#samp2 := mus_musculus#
-$(CURDIR)/$(samp2)/(samp2).sga.fastq:\ 
-$(CURDIR)/$(samp2)/mus_musculus_preprocessed.fastq.gz   
-	sga correct -k 41 --discard --learn -t 8 -o (samp2).sga.fastq mus_musculus_preprocessed.fastq.gz
-	
+
 #######################Trimmomatic/Trinity##########################
 
-#samp1 := p_eremicus#
 $(CURDIR)/$(samp1)/(samp1).sga_no_norm_trinity.fasta:\ 
 $(CURDIR)/$(samp1)/$(samp1).sga.fastq.gz #input from sga
 	Trinity --seqType fq --JM 50G --trimmomatic \
@@ -87,13 +68,3 @@ $(CURDIR)/$(samp1)/$(samp1).sga.fastq.gz #input from sga
     --right $(word 2,$^) \
     --CPU $(CPU) --output $(samp1).sga_no_norm_trinity.fasta \
     --quality_trimming_params "ILLUMINACLIP:$(CURDIR)/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
-
-#samp2 := mus_musculus#
-$(CURDIR)/$(samp2)/(samp2).sga_no_norm_trinity.fasta:\ 
-$(CURDIR)/$(samp2)/$(samp2).sga.fastq.gz #input from sga
-	Trinity --seqType fq --JM 50G --trimmomatic \
-    --left $<  \
-    --right $(word 2,$^) \
-    --CPU $(CPU) --output $(samp2).sga_no_norm_trinity.fasta \
-    --quality_trimming_params "ILLUMINACLIP:$(CURDIR)/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
-
