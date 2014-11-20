@@ -18,50 +18,32 @@
 
 
 MEM=5
-#TRIM=5
 CPU=5
 RUN=run
-READ1=/home/lauren/transcriptome/Pero360T.1.fastq.gz
-READ2=/home/lauren/transcriptome/Pero360T.2.fastq.gz
-READ3=mus_READNAME1.fastq
-READ4=mus_READNAME2.fastq
+#READ1=/mnt/data3/lah/mattsclass/testes.R1.fastq
+#READ2=/mnt/data3/lah/mattsclass/testes.R2.fastq
 
-samp1 := p_eremicus
-samp2 := mus_musculus
 
-all:
-$(CURDIR)/$(samp1)/$(samp1).1.corrected.fastq.gz 						#all output files in order of correction
-$(CURDIR)/$(samp1)/$(samp1).2.corrected.fastq.gz
-$(CURDIR)/$(samp2)/$(samp2).1.corrected.fastq.gz 
-$(CURDIR)/$(samp2)/$(samp2).2.corrected.fastq.gz
-$(CURDIR)/$(samp1)/$(samp1).bless_corrected.inter.norm.fastq.gz
-$(CURDIR)/$(samp2)/$(samp2).bless_corrected.inter.norm.fastq.gz
-$(CURDIR)/$(samp1)/$(samp1).bless_norm_trinity.fasta  
-$(CURDIR)/$(samp2)/$(samp2).bless_norm_trinity.fasta
+all:/mnt/data3/lah/mattsclass/testes.1.bless_corrected.fastq.gz
+/mnt/data3/lah/mattsclass/testes.2.bless_corrected.fastq.gz						#all output files in order of correction
+##ADD OUTPUT AS WE'RE GOING!!####
 
 
 #############################BLESS##############################################
 
 
-K=25
 
-#samp1 := p_eremicus#
-$(CURDIR)/$(samp1)/$(samp1).1.corrected.fastq.gz $(CURDIR)/$(samp1)/$(samp1).2.corrected.fastq.gz:\ #output files
-$(CURDIR)/$(samp1)/raw.$(samp1).READNAME_1.fastq $(CURDIR)/$(samp1)/raw.$(samp1).READNAME_2.fastq #input files (raw reads)
-	@echo '\n\n'BEGIN ERROR CORRECTION: `date +'%a %d%b%Y  %H:%M:%S'`
-	@echo Results will be in a file named *corrected.fastq.gz
-	@echo Settings used: bless kmerlength = $(K)
-	bless -kmerlength $(K) -read1 $< -read2 $(word 2,$^) -verify -notrim -prefix $(CURDIR)/$(samp1)/$(samp1)
-	gzip $(CURDIR)/$(samp1)/$(samp1).1.bless_corrected.fastq $(CURDIR)/$(samp1)/$(samp1).2.bless_corrected.fastq &
+all:/mnt/data3/lah/mattsclass/testes.1.bless_corrected.fastq.gz /mnt/data3/lah/mattsclass/testes.2.bless_corrected.fastq.gz
 
-#samp2 := mus_musculus#
-$(CURDIR)/$(samp2)/$(samp2).1.corrected.fastq.gz $(CURDIR)/$(samp2)/$(samp2).2.corrected.fastq.gz:\ #output files
-$(CURDIR)/$(samp2)/raw.$(samp2).READNAME_1.fastq $(CURDIR)/$(samp2)/raw.$(samp2).READNAME_2.fastq #input files
-	@echo '\n\n'BEGIN ERROR CORRECTION: `date +'%a %d%b%Y  %H:%M:%S'`
-	@echo Results will be in a file named *corrected.fastq.gz
-	@echo Settings used: bless kmerlength = $(K)
-	bless -kmerlength $(K) -read1 $< -read2 $(word 2,$^) -verify -notrim -prefix $(CURDIR)/$(samp2)/$(samp2)
-	gzip $(CURDIR)/$(samp2)/$(samp2).1.corrected.fastq $(CURDIR)/$(samp2)/$(samp2).2.corrected.fastq &
+
+/mnt/data3/lah/mattsclass/testes.1.bless_corrected.fastq.gz /mnt/data3/lah/mattsclass/testes.2.bless_corrected.fastq.gz:\ #output files#
+/mnt/data3/lah/mattsclass/testes.R1.fastq /mnt/data3/lah/mattsclass/testes.R2.fastq #input files (raw reads)
+        echo BEGIN ERROR CORRECTION: `date +'%a %d%b%Y  %H:%M:%S'`
+        echo Results will be in a file named *corrected.fastq.gz
+        echo Settings used: bless kmerlength = 25
+        bless -kmerlength 25 -read1 testes.R1.fastq -read2 testes.R2.fastq -verify -notrim -prefix /mnt/data3/lah/mattsclass/testes
+        gzip /mnt/data3/lah/mattsclass/testes.1.bless_corrected.fastq /mnt/data3/lah/mattsclass/testes.2.bless_corrected.fastq &
+
 
 ##########################khmer###############################
 
@@ -69,22 +51,15 @@ C=50
 NORM_K=25
 
 #samp1 :=p_eremicus#
-$(CURDIR)/$(samp1)/$(samp1).bless_corrected.inter.norm.fastq.gz:\ #output file 
-$(CURDIR)/$(samp1)/$(samp1).1.corrected.fastq.gz $(CURDIR)/$(samp1)_corr/$(samp1).2.corrected.fastq.gz #input files from bless (interleave these)
-	@echo '\n\n'BEGIN NORMALIZATION for $(samp10): `date +'%a %d%b%Y  %H:%M:%S'`
-	@echo Settings used: normalize-by-median.py -p -k $(NORM_K) -C $(C) -N 4 -x 15e9
-	interleave-reads.py $^ -o $(CURDIR)/$(samp1)/$(samp1).bless_corrected.inter.fastq
-	normalize-by-median.py -p -k $(NORM_K) -C $(C) -N 4 -x 15e9 --out $@ $(CURDIR)/$(samp1)/$(samp1).bless_corrected.inter.norm.fastq
-	gzip $(CURDIR)/$(samp1)/$(samp1).bless_corrected.inter.norm.fastq &
+#$(CURDIR)/$(samp1)/$(samp1).bless_corrected.inter.norm.fastq.gz:\ 
+/mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq.gz:\ #output file 
+/mnt/data3/lah/mattsclass/testes.1.bless_corrected.fastq.gz /mnt/data3/lah/mattsclass/testes.2.bless_corrected.fastq.gz #input files from bless (interleave these)
+	echo BEGIN NORMALIZATION `date +'%a %d%b%Y  %H:%M:%S'`
+	echo Settings used: normalize-by-median.py -p -k $(NORM_K) -C $(C) -N 4 -x 15e9
+	interleave-reads.py $^ -o /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq
+	normalize-by-median.py -p -k $(NORM_K) -C $(C) -N 4 -x 15e9 --out $@ /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq
+	gzip /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq &
 	
-#samp2 := mus_musculus#
-$(CURDIR)/$(samp2)/$(samp2).bless_corrected.inter.norm.fastq.gz:\ #output file
-$(CURDIR)/$(samp2)/$(samp2).1.bless_corrected.fastq.gz $(CURDIR)/$(samp1)_corr/$(samp2).2.bless_corrected.fastq.gz #input files from bless
-	@echo '\n\n'BEGIN NORMALIZATION for $(samp10): `date +'%a %d%b%Y  %H:%M:%S'`
-	@echo Settings used: normalize-by-median.py -p -k $(NORM_K) -C $(C) -N 4 -x 15e9
-	interleave-reads.py $^ -o $(CURDIR)/$(samp2)/$(samp2).bless_corrected.inter.fastq
-	normalize-by-median.py -p -k $(NORM_K) -C $(C) -N 4 -x 15e9 --out $@ $(CURDIR)/$(samp2)/$(samp2).bless_corrected.inter.norm.fastq
-	gzip $(CURDIR)/$(samp2)/$(samp2).bless_corrected.inter.norm.fastq &
 
 #######################Trimmomatic/Trinity##########################
 
