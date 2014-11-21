@@ -33,16 +33,16 @@ all:/mnt/data3/lah/mattsclass/testes.1.bless_corrected.fastq.gz
 
 
 
-all:/mnt/data3/lah/mattsclass/testes.1.bless_corrected.fastq.gz /mnt/data3/lah/mattsclass/testes.2.bless_corrected.fastq.gz
+all:/mnt/data3/lah/mattsclass/testes.1.corrected.fastq.gz /mnt/data3/lah/mattsclass/testes.2.corrected.fastq.gz
 
 
-/mnt/data3/lah/mattsclass/testes.1.bless_corrected.fastq.gz /mnt/data3/lah/mattsclass/testes.2.bless_corrected.fastq.gz:\ #output files#
+/mnt/data3/lah/mattsclass/testes.1.corrected.fastq.gz /mnt/data3/lah/mattsclass/testes.2.corrected.fastq.gz:\ #output files#
 /mnt/data3/lah/mattsclass/testes.R1.fastq /mnt/data3/lah/mattsclass/testes.R2.fastq #input files (raw reads)
         echo BEGIN ERROR CORRECTION: `date +'%a %d%b%Y  %H:%M:%S'`
         echo Results will be in a file named *corrected.fastq.gz
         echo Settings used: bless kmerlength = 25
         bless -kmerlength 25 -read1 testes.R1.fastq -read2 testes.R2.fastq -verify -notrim -prefix /mnt/data3/lah/mattsclass/testes
-        gzip /mnt/data3/lah/mattsclass/testes.1.bless_corrected.fastq /mnt/data3/lah/mattsclass/testes.2.bless_corrected.fastq &
+        gzip /mnt/data3/lah/mattsclass/testes.1.corrected.fastq /mnt/data3/lah/mattsclass/testes.2.corrected.fastq &
 
 
 ##########################khmer###############################
