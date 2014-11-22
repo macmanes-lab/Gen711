@@ -47,7 +47,7 @@ all:/mnt/data3/lah/mattsclass/testes.1.corrected.fastq.gz /mnt/data3/lah/mattscl
 
 ##########################khmer###############################
 
-all: /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq.gz
+all: /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq.gz #output
 /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq.gz:\ #output file
 /mnt/data3/lah/mattsclass/testes.1.corrected.fastq.gz /mnt/data3/lah/mattsclass/testes.2.corrected.fastq.gz #input files from bless (interleave these)
         echo BEGIN NORMALIZATION `date +'%a %d%b%Y  %H:%M:%S'`
@@ -59,22 +59,11 @@ all: /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq.gz
 
 #######################Trimmomatic/Trinity##########################
 
-#samp1 := p_eremicus#
-$(CURDIR)/$(samp1)/(samp1).bless_norm_trinity.fasta:\ #output
-$(CURDIR)/$(samp1)/$(samp1).bless_corrected.inter.norm.fastq.gz #input from khmer output
+all: /mnt/data3/lah/mattsclass/testes.bless_norm_trinity.fasta
+/mnt/data3/lah/mattsclass/testes.bless_norm_trinity.fasta:\ #output
+/mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq.gz #input from khmer output
 	Trinity --seqType fq --JM 50G --trimmomatic \
     --left $<  \
     --right $(word 2,$^) \
-    --CPU $(CPU) --output $(samp1).bless_norm_trinity.fasta \  #Does this need to be this > $(samp1)/(samp1).bless_norm_trinity.fasta
+    --CPU $(CPU) --output /mnt/data3/lah/mattsclass/testes.bless_norm_trinity.fasta \  #Does this need to be this > 
     --quality_trimming_params "ILLUMINACLIP:$(CURDIR)/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
-
-#samp2 := mus_musculus#
-$(CURDIR)/$(samp2)/bless_norm_trinity.fasta:\ #output
-$(CURDIR)/$(samp2)/$(samp2).bless_corrected.inter.norm.fastq.gz #input from khmer output
-	Trinity --seqType fq --JM 50G --trimmomatic \
-    --left $<  \
-    --right $(word 2,$^) \
-    --CPU $(CPU) --output $(samp2).bless_norm_trinity.fasta \
-    --quality_trimming_params "ILLUMINACLIP:$(CURDIR)/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
-    
-    
