@@ -47,18 +47,14 @@ all:/mnt/data3/lah/mattsclass/testes.1.corrected.fastq.gz /mnt/data3/lah/mattscl
 
 ##########################khmer###############################
 
-C=50
-NORM_K=25
-
-#samp1 :=p_eremicus#
-#$(CURDIR)/$(samp1)/$(samp1).bless_corrected.inter.norm.fastq.gz:\ 
-/mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq.gz:\ #output file 
+all: /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq.gz
+/mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq.gz:\ #output file
 /mnt/data3/lah/mattsclass/testes.1.corrected.fastq.gz /mnt/data3/lah/mattsclass/testes.2.corrected.fastq.gz #input files from bless (interleave these)
-	echo BEGIN NORMALIZATION `date +'%a %d%b%Y  %H:%M:%S'`
-	echo Settings used: normalize-by-median.py -p -k $(NORM_K) -C $(C) -N 4 -x 15e9
-	interleave-reads.py $^ -o /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq
-	normalize-by-median.py -p -k $(NORM_K) -C $(C) -N 4 -x 15e9 --out $@ /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq
-	gzip /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq &
+        echo BEGIN NORMALIZATION `date +'%a %d%b%Y  %H:%M:%S'`
+        echo Settings used: normalize-by-median.py -p -k 25 -C 50 -N 4 -x 15e9
+        interleave-reads.py /mnt/data3/lah/mattsclass/testes.1.corrected.fastq.gz /mnt/data3/lah/mattsclass/testes.2.corrected.fastq.gz -o /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq
+        normalize-by-median.py -p -k 25  -C 50  -N 4 -x 15e9 --out bless_corrected.inter.norm.fastq /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq
+        gzip /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq &
 	
 
 #######################Trimmomatic/Trinity##########################
