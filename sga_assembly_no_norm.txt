@@ -20,48 +20,43 @@ REPORT=sga-preqc-report.py
 
 #change the data
 #This re-names my samples:
-samp1 := p_eremicus
+#samp1 := p_eremicus
 
 
 #Below after the all command are the final output files from SGA and normalization and trinity:
 #Must be added in order of completion!!!
-all:$(CURDIR)/p_eremicus/p_eremicus_preprocessed.fastq.gz
-
-#$(CURDIR)/p_eremicus/p_eremicus_sga.fastq.gz $(CURDIR)/p_eremicus/p_eremicus_sga_no_norm_trinity.fasta
-
+all:/home/lauren/Documents/p_eremicus/p_eremicus_preprocessed.fastq.gz
+/home/lauren/Documents/p_eremicus/p_eremicus_sga.fastq.gz
+#/home/lauren/Documents/p_eremicus/p_eremicus_sga_no_norm_trinity
 
 #################################SGA####################################
 
 # Pre-process the dataset: recall that NEED gz file form for this step
-$(CURDIR)/p_eremicus/p_eremicus_preprocessed.fastq.gz:/home/lauren/Documents/testes.R1.fastq.gz /home/lauren/Documents/testes.R2.fastq.gz
+/home/lauren/Documents/p_eremicus/p_eremicus_preprocessed.fastq.gz:/home/lauren/Documents/testes.R1.fastq.gz /home/lauren/Documents/testes.R2.fastq.$
         sga preprocess --pe-mode 1 /home/lauren/Documents/testes.R1.fastq.gz /home/lauren/Documents/testes.R2.fastq.gz > $@
+
 
 
 #####################Edited to this point##########################
 
-
-
-		
-            
-# Build the FM-index 
+# Build the FM-index
 %.bwt: %.fastq.gz
-		$(SGA) index -a ropebwt -t 8 --no-reverse $<
+        $(SGA) index -a ropebwt -t 8 --no-reverse $<
 
-		
 # Make the preqc file for the short read set
 %.preqc: %.bwt %.fastq.gz
-		$(SGA) preqc -t 8 $(patsubst %.bwt, %.fastq.gz, $<) > $@
+        $(SGA) preqc -t 8 $(patsubst %.bwt, %.fastq.gz, $<) > $@
 
-		
 # Final PDF report
-main_report.pdf: samp1.preqc  
-		python $(REPORT) $+
-		mv preqc_report.pdf $@
+main_report.pdf: p_eremicus.preqc
+                python $(REPORT) $+
+                mv preqc_report.pdf $@
 
-# SGA correction				
-$(CURDIR)/$(samp1)/(samp1).sga.fastq:\ 
-$(CURDIR)/$(samp1)/p_eremicus_preprocessed.fastq.gz   
-	sga correct -k 41 --discard --learn -t 8 -o (samp1).sga.fastq p_eremicus_preprocessed.fastq.gz
+# SGA correction
+/home/lauren/Documents/p_eremicus/p_eremicus_sga.fastq:/home/lauren/Documents/p_eremicus/p_eremicus_preprocessed.fastq.gz
+        sga correct -k 41 --discard --learn -t 8 -o /home/lauren/Documents/p_eremicus/p_eremicus_sga.fastq /home/lauren.Documents/p_eremicus/p_eremi$
+
+
 
 
 #######################Trimmomatic/Trinity##########################
