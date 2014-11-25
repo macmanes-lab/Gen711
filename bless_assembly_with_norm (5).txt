@@ -61,9 +61,9 @@ all: /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq.gz #output
 
 all: /mnt/data3/lah/mattsclass/testes.bless_norm_trinity.fasta
 /mnt/data3/lah/mattsclass/testes.bless_norm_trinity.fasta:\ #output
-/mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq.gz #input from khmer output
-	Trinity --seqType fq --JM 50G --trimmomatic \
-    --left $<  \
-    --right $(word 2,$^) \
-    --CPU $(CPU) --output /mnt/data3/lah/mattsclass/testes.bless_norm_trinity.fasta \  #Does this need to be this > 
-    --quality_trimming_params "ILLUMINACLIP:$(CURDIR)/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
+/mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq.gz.1 /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq.gz.2 #input from khmer output
+Trinity --seqType fq --JM 50G --trimmomatic --left /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq.gz.1 --right /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq.gz.2 --CPU 8 --output$
+LEADING:2 \
+TRAILING:2 \
+MINLEN:25"
+
