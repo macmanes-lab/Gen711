@@ -55,7 +55,7 @@ all:/mnt/data3/lah/mattsclass/testes.1.bless_corrected.fastq.gz /mnt/data3/lah/m
         interleave-reads.py /mnt/data3/lah/mattsclass/testes.1.corrected.fastq.gz /mnt/data3/lah/mattsclass/testes.2.corrected.fastq.gz -o /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq
         normalize-by-median.py -p -k 25  -C 50  -N 4 -x 15e9 --out bless_corrected.inter.norm.fastq 
         gzip bless_corrected.inter.norm.fastq
-		split-paired-reads.py /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq.gz &
+        split-paired-reads.py /mnt/data3/lah/mattsclass/bless_corrected.inter.norm.fastq.gz &
 	
 
 #######################Trimmomatic/Trinity##########################
