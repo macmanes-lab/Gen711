@@ -26,7 +26,7 @@ REPORT=sga-preqc-report.py
 #Below after the all command are the final output files from SGA and normalization and trinity:
 #Must be added in order of completion!!!
 all:/home/lauren/Documents/p_eremicus/p_eremicus_preprocessed.fastq.gz \
-/home/lauren/Documents/p_eremicus/index.bwt \
+/home/lauren/Documents/p_eremicus/p_eremicus_preprocessed.bwt \
 /home/lauren/Documents/p_eremicus/p_eremicus_sga.fastq.gz \
 /home/lauren/Documents/p_eremicus/p_eremicus_sga_corrected_inter_norm.fastq.gz \
 /home/lauren/Documents/p_eremicus/p_eremicus_sga_with_norm_trinity.fasta
@@ -42,8 +42,9 @@ all:/home/lauren/Documents/p_eremicus/p_eremicus_preprocessed.fastq.gz \
 
 
 # Build the FM-index
-/home/lauren/Documents/p_eremicus/index.bwt:/home/lauren/Documents/p_eremicus/p_eremicus_preprocessed.fastq.gz
-        sga index -p /home/lauren/Documents/p_eremicus/index -a ropebwt -t 8 --no-reverse $<
+/home/lauren/Documents/p_eremicus/p_eremicus_preprocessed.bwt: \
+/home/lauren/Documents/p_eremicus/p_eremicus_preprocessed.fastq.gz
+        sga index -p /home/lauren/Documents/p_eremicus/ -a ropebwt -t 8 --no-reverse $<
 
 
 # Make the preqc file for the short read set
