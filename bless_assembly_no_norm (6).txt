@@ -1,13 +1,12 @@
 #!/usr/bin/make -rRsf ????
 
 ###########################################
-###         -usage 'bless_assembly_with_norm.mk RUN=run CPU=8 MEM=15 READ1=/home/lauren/transcriptome/Pero360T.1.fastq.gz READ2=/home/lauren/transcriptome/Pero360T.2.fastq.gz READ3=/location/of/read3.fastq READ4=/location/of/read4.fastq '
+###        -usage 'bless_assembly_with_norm.mk RUN=run CPU=8 MEM=15 READ1=/home/lauren/transcriptome/Pero360T.1.fastq.gz READ2=/home/lauren/transcriptome/Pero360T.2.fastq.gz READ3=/location/of/read3.fastq READ4=/location/of/read4.fastq '
 ###         -RUN= name of run
-###
 ###
 ############################################
 
-#$@ is a short hand for target.
+#$@
 
 ##files we need are p_eremics.READNAME.fastq_1&2
 #####				mus_musculus.READNAME.fastq_1&2
@@ -19,66 +18,41 @@
 
 
 MEM=5
-#TRIM=5
 CPU=5
 RUN=run
-READ1=/home/lauren/transcriptome/Pero360T.1.fastq.gz
-READ2=/home/lauren/transcriptome/Pero360T.2.fastq.gz
-READ3=mus_READNAME1.fastq
-READ4=mus_READNAME2.fastq
+#READ1=/mnt/data3/lah/mattsclass/testes.R1.fastq
+#READ2=/mnt/data3/lah/mattsclass/testes.R2.fastq
 
-samp1 := p_eremicus
-samp2 := mus_musculus
 
-$(CURDIR)/$(samp1)/$(samp1).1.corrected.fastq.gz 						#all output files in order of origination
-$(CURDIR)/$(samp1)/$(samp1).2.corrected.fastq.gz
-$(CURDIR)/$(samp2)/$(samp2).1.corrected.fastq.gz 
-$(CURDIR)/$(samp2)/$(samp2).2.corrected.fastq.gz
-$(CURDIR)/$(samp1)/$(samp1).bless_no_norm_trinity.fasta  
-$(CURDIR)/$(samp2)/$(samp2).bless_no_norm_trinity.fasta
+all:/mnt/data3/lah/mattsclass/testes.1.bless_corrected.fastq.gz /mnt/data3/lah/mattsclass/testes.2.bless_corrected.fastq.gz /mnt/data3/lah/mattsclass/testes.bless_no_norm_trinity.fasta
+					#all output files in order of correction
+##ADD OUTPUT AS WE'RE GOING!!####
 
 
 #############################BLESS##############################################
 
 
-K=25
 
-#samp1 := p_eremicus#
-$(CURDIR)/$(samp1)/$(samp1).1.corrected.fastq.gz $(CURDIR)/$(samp1)/$(samp1).2.corrected.fastq.gz:\ #output files
-$(CURDIR)/$(samp1)/raw.$(samp1).READNAME_1.fastq $(CURDIR)/$(samp1)/raw.$(samp1).READNAME_2.fastq #input files (raw reads)
-	@echo '\n\n'BEGIN ERROR CORRECTION: `date +'%a %d%b%Y  %H:%M:%S'`
-	@echo Results will be in a file named *corrected.fastq.gz
-	@echo Settings used: bless kmerlength = $(K)
-	bless -kmerlength $(K) -read1 $< -read2 $(word 2,$^) -verify -notrim -prefix $(CURDIR)/$(samp1)/$(samp1)
-	gzip $(CURDIR)/$(samp1)/$(samp1).1.bless_corrected.fastq $(CURDIR)/$(samp1)/$(samp1).2.bless_corrected.fastq &
+#all:/mnt/data3/lah/mattsclass/testes.1.corrected.fastq.gz /mnt/data3/lah/mattsclass/testes.2.corrected.fastq.gz
 
-#samp2 := mus_musculus#
-$(CURDIR)/$(samp2)/$(samp2).1.corrected.fastq.gz $(CURDIR)/$(samp2)/$(samp2).2.corrected.fastq.gz:\ #output files
-$(CURDIR)/$(samp2)/raw.$(samp2).READNAME_1.fastq $(CURDIR)/$(samp2)/raw.$(samp2).READNAME_2.fastq #input files
-	@echo '\n\n'BEGIN ERROR CORRECTION: `date +'%a %d%b%Y  %H:%M:%S'`
-	@echo Results will be in a file named *corrected.fastq.gz
-	@echo Settings used: bless kmerlength = $(K)
-	bless -kmerlength $(K) -read1 $< -read2 $(word 2,$^) -verify -notrim -prefix $(CURDIR)/$(samp2)/$(samp2)
-	gzip $(CURDIR)/$(samp2)/$(samp2).1.corrected.fastq $(CURDIR)/$(samp2)/$(samp2).2.corrected.fastq &
 
+/mnt/data3/lah/mattsclass/testes.1.corrected.fastq.gz /mnt/data3/lah/mattsclass/testes.2.corrected.fastq.gz:\ #output files#
+/mnt/data3/lah/mattsclass/testes.R1.fastq /mnt/data3/lah/mattsclass/testes.R2.fastq #input files (raw reads)
+        echo BEGIN ERROR CORRECTION: `date +'%a %d%b%Y  %H:%M:%S'`
+        echo Results will be in a file named *corrected.fastq.gz
+        echo Settings used: bless kmerlength = 25
+        bless -kmerlength 25 -read1 testes.R1.fastq -read2 testes.R2.fastq -verify -notrim -prefix /mnt/data3/lah/mattsclass/testes
+        gzip /mnt/data3/lah/mattsclass/testes.1.corrected.fastq /mnt/data3/lah/mattsclass/testes.2.corrected.fastq &
 
 
 #######################Trimmomatic/Trinity##########################
 
-#samp1 := p_eremicus#
-$(CURDIR)/$(samp1)/(samp1).bless_no_norm_trinity.fasta:\ #output
-$(CURDIR)/$(samp1)/$(samp1).1.corrected.fastq.gz $(CURDIR)/$(samp1)/$(samp1).2.corrected.fastq.gz #input from bless
-	Trinity --seqType fq --JM 50G --trimmomatic \
-    --left $<  \
-    --right $(word 2,$^) \
-    --CPU $(CPU) --output $(samp1).bless_no_norm_trinity.fasta \  #Does this need to be this > $(samp1)/(samp1).bless_norm_trinity.fasta
-    --quality_trimming_params "ILLUMINACLIP:$(CURDIR)/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
+#all: /mnt/data3/lah/mattsclass/testes.bless_norm_trinity.fasta
+/mnt/data3/lah/mattsclass/testes.bless_no_norm_trinity.fasta:\ #output
+/mnt/data3/lah/mattsclass/testes.1.corrected.fastq.gz /mnt/data3/lah/mattsclass/testes.2.corrected.fastq.gz #input from bless output
+Trinity --seqType fq --JM 50G --trimmomatic --left /mnt/data3/lah/mattsclass/testes.1.corrected.fastq.gz --right /mnt/data3/lah/mattsclass/testes.2.corrected.fastq.gz --CPU 8 --output bless_no_norm_trinity.fasta
+LEADING:2 \
+TRAILING:2 \
+MINLEN:25" 
+&
 
-#samp2 := mus_musculus#
-$(CURDIR)/$(samp2)/bless_no_norm_trinity.fasta:\ #output
-$(CURDIR)/$(samp2)/$(samp2).1.corrected.fastq.gz $(CURDIR)/$(samp2)/$(samp2).2.corrected.fastq.gz #input from khmer output
-	Trinity --seqType fq --JM 50G --trimmomatic \
-    --left $<  \
-    --right $(word 2,$^) \
-    --CPU $(CPU) --output $(samp2).bless_no_norm_trinity.fasta \
-    --quality_trimming_params "ILLUMINACLIP:$(CURDIR)/barcodes.fa:2:40:15 LEADING:2 TRAILING:2 MINLEN:25"
