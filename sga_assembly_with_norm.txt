@@ -38,7 +38,7 @@ all:/home/lauren/Documents/p_eremicus/p_eremicus_preprocessed.fastq.gz \
 /home/lauren/Documents/p_eremicus/p_eremicus_preprocessed.fastq.gz:/home/lauren/Documents/testes.R1.fastq.gz \ /home/lauren/Documents/testes.R2.fastq.gz
 	sga preprocess --pe-mode 1 /home/lauren/Documents/testes.R1.fastq.gz /home/lauren/Documents/testes.R2.fastq.gz > \
 /home/lauren/Documents/p_eremicus/p_eremicus_preprocessed.fastq
-	 gzip /home/lauren/Documents/p_eremicus/p_eremicus_preprocessed.fastqren/Documents/testes.R2.fastq.gz > $@
+	 gzip /home/lauren/Documents/p_eremicus/p_eremicus_preprocessed.fastq
 
 
 # Build the FM-index
@@ -64,7 +64,7 @@ all:/home/lauren/Documents/p_eremicus/p_eremicus_preprocessed.fastq.gz \
 
 /home/lauren/Documents/p_eremicus/p_eremicus_sga_corrected_inter_norm.fastq.gz:\  
 /home/lauren/Documents/p_eremicus/p_eremicus_sga.fastq.gz 
-	normalize-by-median.py -p -k 25 -C 50 -N 4 -x 15e9 --out \
+	cd /home/lauren/Documents/p_eremicus/ && normalize-by-median.py -k 25 -C 50 -N 4 -x 15e9 --out \
 	/home/lauren/Documents/p_eremicus/p_eremicus_sga_corrected_inter_norm.fastq \
 	/home/lauren/Documents/p_eremicus/p_eremicus_sga.fastq.gz 
 	gzip /home/lauren/Documents/p_eremicus/p_eremicus_sga_corrected_inter_norm.fastq 
