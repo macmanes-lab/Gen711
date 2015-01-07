@@ -1,0 +1,31 @@
+#Make trinity assembly file 'unwrapped'
+
+#Purpose of this is to filter contigs out of the epididymus assembly that have a contig score <0.3
+#I need to do this because my epidiymus transcriptome assmembly had a low transrate score of 0.192
+#and we hope that by filtering out these low quality contigs, this may improve the transrate score
+#assembly: /home/lauren/Documents/NYGenomeCenter/epi_bless_norm_trinity.fasta:/Trinity_Fixed.fasta
+#csv contigs: /home/lauren/Documents/NYGenomeCenter/epi.contig_score.FULL_Trinity_Fixed.fasta_contigs.csv
+
+sed ':begin;$!N;/[ACTGNn-]\n[ACTGNn-]/s/\n//;tbegin;P;D' Trinity.fasta > /home/lauren/Documents/NYGenomeCenter/epi_bless_norm_trinity.fasta:/Trinity_Fixed.fasta
+
+#Filter based on score. See if you can figure out what this is doing
+
+awk -F "," '.3>$17{next}1' /home/lauren/Documents/NYGenomeCenter/epi.contig_score.FULL_Trinity_Fixed.fasta_contigs.csv | \
+awk -F "," '{print $1}' | sed '1,1d' | split -l 9000
+
+#This will give you a  bunch of files xaa, xab, xac, etc. Each of them contains 
+#the names of the 'good contigs' Now we  need to retrive them from
+#the original fasta file
+
+for i in $(cat xaa); do grep -A1 --max-count=1 -w $i /home/lauren/Documents/NYGenomeCenter/epi_bless_norm_trinity.fasta:/Trinity_Fixed.fasta >> temp1.fa; done &
+for i in $(cat xab); do grep -A1 --max-count=1 -w $i /home/lauren/Documents/NYGenomeCenter/epi_bless_norm_trinity.fasta:/Trinity_Fixed.fasta >> temp2.fa; done &
+for i in $(cat xac); do grep -A1 --max-count=1 -w $i /home/lauren/Documents/NYGenomeCenter/epi_bless_norm_trinity.fasta:/Trinity_Fixed.fasta >> temp3.fa; done &
+...
+
+#One command for each of the xa* files. I do it like this to save
+#time. Each xa* file is being processed on a different core.
+
+#Lastly, concatenate all the temporary files together and get rid of the now unneeded files:
+
+cat temp* > /home/lauren/Documents/NYGenomeCenter/epi_bless_norm_trinity.fasta:/Trinity_Fixed_SCORE.fasta
+rm temp* x*
