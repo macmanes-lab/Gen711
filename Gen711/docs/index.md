@@ -20,8 +20,8 @@
 4. Syllabus :doc:`Syllabus`
 
 5. Lecture Materials.
-    -  [download](Welcome Lecture 0 <lecture/Lecture_1.pdf)
-    -  :download:`BLAST Lecture 1 <lecture/Lecture_2.pdf>`
+    -  [Welcome Lecture](Welcome Lecture 0 <lecture/Lecture_1.pdf)
+    -  [BLAST Lecture 1](lecture/Lecture_2.pdf)
     -  :download:`Lecture 4Sept15 <lecture/Lec_4Sept15.pdf>`
     -  :download:`Lecture 9Sept15 <lecture/Lec_9Sept15.pdf>`
     -  :download:`Alignment Lecture 14Sept15 <lecture/Lec_14Sept15.pdf>`
