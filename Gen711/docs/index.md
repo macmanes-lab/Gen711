@@ -20,35 +20,35 @@
 4. Syllabus :doc:`Syllabus`
 
 5. Lecture Materials.
-    -  :download:`Welcome Lecture 0 <files/Lecture_1.pdf>`
-    -  :download:`BLAST Lecture 1 <files/Lecture_2.pdf>`
-    -  :download:`Lecture 4Sept15 <files/Lec_4Sept15.pdf>`
-    -  :download:`Lecture 9Sept15 <files/Lec_9Sept15.pdf>`
-    -  :download:`Alignment Lecture 14Sept15 <files/Lec_14Sept15.pdf>`
-    -  :download:`Alignment Lecture 16Sept15 <files/Lec_16Sept15.pdf>`
+    -  :download:`Welcome Lecture 0 <lecture/Lecture_1.pdf>`
+    -  :download:`BLAST Lecture 1 <lecture/Lecture_2.pdf>`
+    -  :download:`Lecture 4Sept15 <lecture/Lec_4Sept15.pdf>`
+    -  :download:`Lecture 9Sept15 <lecture/Lec_9Sept15.pdf>`
+    -  :download:`Alignment Lecture 14Sept15 <lecture/Lec_14Sept15.pdf>`
+    -  :download:`Alignment Lecture 16Sept15 <lecture/Lec_16Sept15.pdf>`
     -  `HMM Info <http://genomebio.org/Gen711/?p=152>`_
-    -  :download:`HMM/fastQ Lecture 21Sept15 <files/Lec_21Sept15_AdvSearch.pdf>`
-    -  :download:`Illumina Lecture 23Sept15 <files/Lec_23Sept15_fastq.pdf>`
-    -  :download:`Trimming Lecture 28Sept15 <files/Lec_28Sept15.pdf>`
-    -  :download:`Error Correction Lecture 30Sept15 <files/Lec_30Sept15.pdf>`
-    -  :download:`Lecture 5Oct15 <files/Lec_5Oct15.pdf>`
-    -  :download:`Lecture 7Oct15 <files/Lec_7Oct15.pdf>`
-    -  :download:`A few more Review Slides <files/Lec_30Sept15_with_review.pdf>`
-    -  :download:`Lecture 15Oct15 Diginorm <files/Lec_16Oct15.pdf>`
-    -  :download:`Lecture 19Oct15 <files/Lec_19Oct15.pdf>`
-    -  :download:`Lecture 21Oct15 <files/Lec_21Oct15.pdf>`
-    -  :download:`Lecture 28Oct15 <files/Lec_28Oct15.pdf>`
-    -  :download:`Lecture 4Nov15 <files/Lec_4Nov15.pdf>`
-    -  :download:`Lecture 6Nov15 <files/Lec_6Nov15.pdf>`
-    -  :download:`Lecture 13Nov15 <files/Lec_13Nov15.pdf>`
-    -  :download:`Lecture 16Nov15 <files/Lec_16Nov15.pdf>`
-    -  :download:`Lecture 18Nov15 <files/Lec_18Nov15.pdf>`
-    -  :download:`Lecture 30Nov15 <files/Lec_30Nov15.pdf>`
-    -  :download:`Final Lecture <files/2015-final-lecture.pdf>`
+    -  :download:`HMM/fastQ Lecture 21Sept15 <lecture/Lec_21Sept15_AdvSearch.pdf>`
+    -  :download:`Illumina Lecture 23Sept15 <lecture/Lec_23Sept15_fastq.pdf>`
+    -  :download:`Trimming Lecture 28Sept15 <lecture/Lec_28Sept15.pdf>`
+    -  :download:`Error Correction Lecture 30Sept15 <lecture/Lec_30Sept15.pdf>`
+    -  :download:`Lecture 5Oct15 <lecture/Lec_5Oct15.pdf>`
+    -  :download:`Lecture 7Oct15 <lecture/Lec_7Oct15.pdf>`
+    -  :download:`A few more Review Slides <lecture/Lec_30Sept15_with_review.pdf>`
+    -  :download:`Lecture 15Oct15 Diginorm <lecture/Lec_16Oct15.pdf>`
+    -  :download:`Lecture 19Oct15 <lecture/Lec_19Oct15.pdf>`
+    -  :download:`Lecture 21Oct15 <lecture/Lec_21Oct15.pdf>`
+    -  :download:`Lecture 28Oct15 <lecture/Lec_28Oct15.pdf>`
+    -  :download:`Lecture 4Nov15 <lecture/Lec_4Nov15.pdf>`
+    -  :download:`Lecture 6Nov15 <lecture/Lec_6Nov15.pdf>`
+    -  :download:`Lecture 13Nov15 <lecture/Lec_13Nov15.pdf>`
+    -  :download:`Lecture 16Nov15 <lecture/Lec_16Nov15.pdf>`
+    -  :download:`Lecture 18Nov15 <lecture/Lec_18Nov15.pdf>`
+    -  :download:`Lecture 30Nov15 <lecture/Lec_30Nov15.pdf>`
+    -  :download:`Final Lecture <lecture/2015-final-lecture.pdf>`
 
 6. Lab lessons
     - :doc:`labs/getting_started`
-    - :download:`Launch an EC2 Instance <files/Lanch_AMI.pdf>`
+    - :download:`Launch an EC2 Instance <lecture/Lanch_AMI.pdf>`
     - Lab 04Sept15: :doc:`labs/Lab0_blast`
     - Lab 11Sept15: :doc:`labs/Lab1_alignment`
     - Lab 11Sept15: `Github <http://angus.readthedocs.org/en/2015/CTB-github.html>`_ and `Why use Git <http://swcarpentry.github.io/git-novice/01-basics.html>`__
