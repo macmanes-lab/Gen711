@@ -16,7 +16,7 @@ Genetics 711/811 | Bioinformatics and Genomics
 
 2. Lecture: MWF 11:10-12:00PM Rudman G89
 
-3. Lab: Friday 3:10-5:00PM Hewitt 301
+3. Lab: Friday 3:10-5:00PM Hewitt 301.
 
 4. Syllabus :doc:`Syllabus`
 
